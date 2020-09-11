@@ -45,16 +45,24 @@ for (var i = 0; i < workDay.length; i++) {
     
     // Create elements, assign content
     var newRow = $("<div class='row'>");
-    newRow.attr("data-order", i+9)
+    newRow.attr("data-order", i+9);
     var timeArea = $("<div class='col-2 col-md-1 hour'>").text(workDay[i].time);
-    var textArea = $("<textarea class='col-8 col-md-10 description past'>");
+    var textArea = $("<textarea class='col-8 col-md-10 description'>");
+    // Determine background class
+    if (moment().format("H") > i+9) {
+        textArea.addClass("past");
+    } else if (moment().format("H") === i+9) {
+        textArea.addClass("present");
+    } else {
+        textArea.addClass("future");
+    }
     var saveArea = $("<div class='col-2 col-md-1 saveBtn'>");
-    var saveIcon = $("<i class='fas fa-save'>")
+    var saveIcon = $("<i class='fas fa-save'>");
     // Append to parent objects
     $("#calendar").append(newRow);
     newRow.append(timeArea, textArea, saveArea);
     saveArea.append(saveIcon)
 }
 
-console.log(workDay[0].time);
+console.log(moment().format("H"));
 
