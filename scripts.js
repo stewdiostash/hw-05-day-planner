@@ -1,68 +1,77 @@
-// Create Element
-// Assign content to Element
-// Append to HTML
+var workDay = JSON.parse(localStorage.getItem("workDay"));
 
-var workDay = [
+if (!workDay) {
+  workDay = [
     {
-        time: "9:00 AM",
-        description: ""
+      time: "9:00 AM",
+      note: "",
     },
     {
-        time: "10:00 AM",
-        description: ""
+      time: "10:00 AM",
+      note: "",
     },
     {
-        time: "11:00 AM",
-        description: ""
+      time: "11:00 AM",
+      note: "",
     },
     {
-        time: "12:00 PM",
-        description: ""
+      time: "12:00 PM",
+      note: "",
     },
     {
-        time: "1:00 PM",
-        description: ""
+      time: "1:00 PM",
+      note: "",
     },
     {
-        time: "2:00 PM",
-        description: ""
+      time: "2:00 PM",
+      note: "",
     },
     {
-        time: "3:00 PM",
-        description: ""
+      time: "3:00 PM",
+      note: "",
     },
     {
-        time: "4:00 PM",
-        description: ""
+      time: "4:00 PM",
+      note: "",
     },
     {
-        time: "5:00 PM",
-        description: ""
+      time: "5:00 PM",
+      note: "",
     },
-]
-
-for (var i = 0; i < workDay.length; i++) {
-    
-    // Create elements, assign content
-    var newRow = $("<div class='row'>");
-    newRow.attr("data-order", i+9);
-    var timeArea = $("<div class='col-2 col-md-1 hour'>").text(workDay[i].time);
-    var textArea = $("<textarea class='col-8 col-md-10 description'>");
-    // Determine background class
-    if (moment().format("H") > i+9) {
-        textArea.addClass("past");
-    } else if (moment().format("H") === i+9) {
-        textArea.addClass("present");
-    } else {
-        textArea.addClass("future");
-    }
-    var saveArea = $("<div class='col-2 col-md-1 saveBtn'>");
-    var saveIcon = $("<i class='fas fa-save'>");
-    // Append to parent objects
-    $("#calendar").append(newRow);
-    newRow.append(timeArea, textArea, saveArea);
-    saveArea.append(saveIcon)
+  ];
 }
 
-console.log(moment().format("H"));
+for (var i = 0; i < workDay.length; i++) {
+  var newRow = $("<div class='row'>");
+    newRow.attr("data-index", i);
+  var timeArea = $("<div class='col-2 col-md-1 hour'>").text(workDay[i].time);
+  var textArea = $("<textarea class='col-8 col-md-10 notepad'>");
+    textArea.val(workDay[i].note);
+  var saveArea = $("<div class='col-2 col-md-1 saveBtn'>");
+  var saveIcon = $("<i class='fas fa-save'>");
 
+  if (moment().format("H") > i + 9) {
+    textArea.addClass("past");
+  } else if (moment().format("H") == i + 9) {
+    textArea.addClass("present");
+  } else {
+    textArea.addClass("future");
+  }
+
+  $("#calendar").append(newRow);
+  newRow.append(timeArea, textArea, saveArea);
+  saveArea.append(saveIcon);
+}
+
+// $(".fas").on("click", function () {
+//   var noteNumber = $(this).parent().parent().attr("data-index");
+//   workDay[noteNumber].note = $(this).parent().siblings(".notepad").val();
+//   localStorage.setItem("workDay", JSON.stringify(workDay));
+// });
+
+$(".saveBtn").on("click", function () {
+    var noteNumber = $(this).parent().attr("data-index");
+    workDay[noteNumber].note = $(this).siblings(".notepad").val();
+    localStorage.setItem("workDay", JSON.stringify(workDay));
+  });
+  
