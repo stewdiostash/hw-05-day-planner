@@ -69,6 +69,12 @@ for (var i = 0; i < workDay.length; i++) {
 //   localStorage.setItem("workDay", JSON.stringify(workDay));
 // });
 
+var today = moment().format('dddd, MMMM Do YYYY')
+
+$("#currentDay").text(today);
+
+
+
 $(".saveBtn").on("click", function () {
     var noteNumber = $(this).parent().attr("data-index");
     workDay[noteNumber].note = $(this).siblings(".notepad").val();
